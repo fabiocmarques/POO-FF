@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="daoGenero" class="br.unb.cic.imdb.integracao.jpa.DAOGeneroJPA"/>
+ 
+   <!--  bean id="daoGenero" class="br.unb.cic.imdb.integracao.memoria.DAOGeneroMemoria"/-->
+
+   <bean id="facade" class="br.unb.cic.imdb.negocio.IMDBFacade" scope="singleton">
+      <property name="daoGenero" ref="daoGenero" />
+   </bean>
+
+</beans>

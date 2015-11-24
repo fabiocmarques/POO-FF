@@ -1,0 +1,37 @@
+Projeto IMDB (30% a 40% da segunda prova)
+
+a) O que deve ser feito
+
+- Implementar o modelo de domínio
+
+O modelo de domínio deve conter todas as classes relacionadas ao 
+IMDB. Esse modelo de dominio deve atender a seguinte especificação. 
+
+	"O sistea IMDB permite aos usuarios (registrados com login, senha, nome, e data de 
+	nascimento) avaliarem trabalhos artísticos. A avaliação de um trabalho artístico é baseada 
+	em uma escala (um a cinco estrelas) e possui um comentário; ou seja, como usuário do sistema, 
+	eu poderia atribuir uma avaliação de cinco estrelas ao album musical Nevermind do Nirvana, 
+	incluindo como comentário um texto como "melhor album muscal da década de 90". 
+
+	Cada usuário pode avaliar vários trabalhos artísticos, e um trabalho artístico pode ter sido 
+	avaliado por vários usuários (caracterizando uma relação N para N). Os trabalhos artísticos 
+	(possuem título e ano de produção) podem ser ou albuns musicais ou filmes. Um album musical 
+	possui uma lista de faixas musicais (cada faixa possui título e duração), enquanto os filmes 
+	possuem apenas uma duração. Trabalhos artísticos possuem um gênero específico (com nome e descrição) e 
+	estão associados a um autor (também com nome e descrição)." 
+
+- Implementar as funcionalidades do sistema
+
+As funcionalidades devem permitir a gerência de artistas, gêneros, trabalhos artísticos e usuários. 
+Deve existir ainda uma funcionalidade que permita aos usuários avaliar trabalhos artísticos existentes. 
+Note que essa implementação envolve componentes Java relacionados a todas as camadas do software (ui, 
+negócio, integração).
+
+b) O que deve ser entregue:
+
+Código fonte da aplicação e dos testes, bem como arquivo README contendo a descrição da equipe, 
+o que foi implementado e como o sistema deve eser executado. 
+
+
+c) Data da entrega: 30/11/2015
+

@@ -1,0 +1,14 @@
+a) necessario converter o projeto para um projeto MAVEN (gerenciar mais facilmente as dependencias)
+
+- selecionar o projeto
+- com o botado direito, selecionar a opcao configure > convert to maven project
+
+b) foram adicionadas dependencias especificas para o Derby (em vez do SQLite) / Hibernate
+
+c) foi adicionado um arquivo META-INF/persistence.xml (para configurar o acesso a dados usando JPA)
+
+- mais exemplos em: https://gist.github.com/mortezaadi/8619433
+
+
+
+ 

@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Thu Nov 12 09:12:27 BRST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0150-fb65-89f1-000005866d20 
+on database directory /Users/rbonifacio/Dropbox/unb/poo/workspace2015/imdb/test  with class loader sun.misc.Launcher$AppClassLoader@4b1210ee 
+Loaded from file:/Users/rbonifacio/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_51-b16
+user.dir=/Users/rbonifacio/Dropbox/unb/poo/workspace2015/imdb
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
