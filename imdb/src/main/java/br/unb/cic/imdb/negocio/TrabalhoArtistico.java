@@ -6,7 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "TB_TRABALHO_ARTISTICO")
@@ -27,6 +30,9 @@ public class TrabalhoArtistico {
 	
 	@ManyToOne
 	private Autor autor;
+	
+	@OneToMany
+	private ArrayList<Avaliacao> avaliacoes;
 
 	public String getTitulo() {
 		return titulo;
