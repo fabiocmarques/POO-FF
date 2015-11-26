@@ -1,0 +1,78 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(GramaticaMH)
+package br.unb.cic.poo.MiniHaskell.parser;
+
+import br.unb.cic.poo.MiniHaskell.*;
+
+public class GramaticaMH
+{
+  public static void main(String args []) throws ParseException
+  {
+    GramaticaMH parser = new GramaticaMH(System.in);
+    parser.Start();
+  }
+}
+
+PARSER_END(GramaticaMH)
+
+ExpressaoSoma Start():
+{
+  Token t;
+  ExpressaoSoma s;
+  int lhs = 0;
+  int rhs = 0;
+}
+{
+  < PLUS >
+  (
+    t = <NUMBER>
+    { lhs = Integer.parseInt(t.image);}
+    
+    t = <NUMBER>
+    { rhs = Integer.parseInt(t.image);}
+        
+  )*
+  <EOF>
+
+  {
+    {
+      s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
+    }
+    
+    return s;
+  }  
+}
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN : /* OPERATORS */
+{
+  	/* Operador de soma na linguagem definido como "soma": */
+	< PLUS : "soma" >
+	
+| 	< MULTIPLY : "*" >
+|	< DIVIDE : "/" >
+}
+
+TOKEN : /* NUMEROS */
+{
+	< NUMBER : (["0"-"9"])+ >
+}
+
+TOKEN : /* END OF LINE */
+{
+	< FINAL_LINHA : ";" >
+}
