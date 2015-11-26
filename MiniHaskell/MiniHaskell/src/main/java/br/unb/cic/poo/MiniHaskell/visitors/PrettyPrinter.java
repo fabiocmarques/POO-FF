@@ -2,6 +2,10 @@ package br.unb.cic.poo.MiniHaskell.visitors;
 
 import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMaiorOuIgual;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMenor;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMenorOuIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
@@ -63,6 +67,40 @@ public class PrettyPrinter implements Visitor {
 
 	public void visitar(Expressao exp) {
 		return;
+	}
+
+	public void visitar(ExpressaoMaiorOuIgual exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += " >= ";
+		exp.rhs().aceitar(this);
+		res += ")";
+		
+	}
+
+	public void visitar(ExpressaoMenorOuIgual exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += " <= ";
+		exp.rhs().aceitar(this);
+		res += ")";
+		
+	}
+
+	public void visitar(ExpressaoMaior exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += " > ";
+		exp.rhs().aceitar(this);
+		res += ")";		
+	}
+
+	public void visitar(ExpressaoMenor exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += " < ";
+		exp.rhs().aceitar(this);
+		res += ")";
 	}
 
 }
