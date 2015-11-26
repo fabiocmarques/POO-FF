@@ -72,14 +72,12 @@ public class SubExpVisitor implements Visitor{
 		total += 1;
 		exp.lhs().aceitar(this);
 		exp.rhs().aceitar(this);	
-		
 	}
 
 	public void visitar(ExpressaoMaior exp) {
 		total += 1;
 		exp.lhs().aceitar(this);
-		exp.rhs().aceitar(this);	
-		
+		exp.rhs().aceitar(this);
 	}
 
 	public void visitar(ExpressaoMenor exp) {
@@ -94,5 +92,4 @@ public class SubExpVisitor implements Visitor{
 		exp.lhs().aceitar(this);
 		exp.rhs().aceitar(this);	
 	}
-
 }
