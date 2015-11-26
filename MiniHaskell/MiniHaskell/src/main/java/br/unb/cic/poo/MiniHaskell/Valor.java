@@ -6,7 +6,7 @@ package br.unb.cic.poo.MiniHaskell;
  * 
  * @author rbonifacio
  */
-public abstract class Valor implements Expressao {
+public abstract class Valor extends Expressao {
 	public Valor avaliar() {
 		return this;
 	}

@@ -8,7 +8,7 @@ import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
  * 
  * @author rbonifacio
  */
-public interface Expressao {
+public abstract class Expressao {
 
 	/**
 	 * Toda expressao pode ser avaliada, 
@@ -16,7 +16,7 @@ public interface Expressao {
 	 * 
 	 * @return valor correspondente a expressao
 	 */
-	public Valor avaliar();
+	public abstract Valor avaliar();
 	
 	/**
 	 * Toda expressao pode estar bem ou mal tipada. 
@@ -24,13 +24,13 @@ public interface Expressao {
 	 * 
 	 * @return <b>true</b> caso a expressao seja bem tipada.
 	 */
-	public boolean checarTipo();
+	public abstract boolean checarTipo();
 	
 	/**
 	 * Retorna o tipo da expressao 
 	 * @return .. 
 	 */
-	public Tipo tipo();
+	public abstract Tipo tipo();
 	
 	/**
 	 * Metodo necessario para que uma expressao 
@@ -38,6 +38,8 @@ public interface Expressao {
 	 * 
 	 * @param v
 	 */
-	public void aceitar(Visitor v);
+	public void aceitar(Visitor v) {
+		v.visitar(this);
+	}
 	
 }
