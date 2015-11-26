@@ -10,7 +10,7 @@ public class ExpressaoMultiplicacao extends ExpressaoBinInt {
 
 	@Override
 	public Valor avaliar(Integer x, Integer y) {
-		return new ValorInteiro(x * y);
+		return new ValorInteiro(x*y);
 	}
 
 	public void aceitar(Visitor v) {
