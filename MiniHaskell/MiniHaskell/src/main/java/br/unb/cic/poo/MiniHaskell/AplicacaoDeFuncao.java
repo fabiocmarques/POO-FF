@@ -9,6 +9,11 @@ public class AplicacaoDeFuncao implements Expressao{
 	private String nome; 
 	private List<Expressao> argumentos;
 	
+	public AplicacaoDeFuncao(String nome,  List<Expressao> argumentos){
+		this.nome = nome;
+		this.argumentos = argumentos;
+	}
+	
 	public Valor avaliar() {
 		DecFuncao funcao = AmbienteExecucao.getInstance().consultaFuncao(nome);
 		//primeiro passo: empilhar o ambiente de execucao
