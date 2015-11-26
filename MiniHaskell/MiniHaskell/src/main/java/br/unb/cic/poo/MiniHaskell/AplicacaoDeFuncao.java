@@ -13,7 +13,7 @@ public class AplicacaoDeFuncao extends Expressao{
 		this.nome = nome;
 		this.argumentos = argumentos;
 	}
-	
+
 	public Valor avaliar() {
 		DecFuncao funcao = AmbienteExecucao.getInstance().consultaFuncao(nome);
 		//primeiro passo: empilhar o ambiente de execucao
