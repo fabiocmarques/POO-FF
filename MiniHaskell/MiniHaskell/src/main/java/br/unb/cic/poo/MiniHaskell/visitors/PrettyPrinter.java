@@ -1,5 +1,6 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
@@ -47,6 +48,11 @@ public class PrettyPrinter implements Visitor {
 
 	public void visitar(ExpressaoLet exp) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void visitar(Expressao exp) {
+		return;
 		
 	}
 

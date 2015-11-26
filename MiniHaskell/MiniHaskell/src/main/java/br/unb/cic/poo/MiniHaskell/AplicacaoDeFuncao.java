@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
 
-public class AplicacaoDeFuncao implements Expressao{
+public class AplicacaoDeFuncao extends Expressao{
 
 	private String nome; 
 	private List<Expressao> argumentos;

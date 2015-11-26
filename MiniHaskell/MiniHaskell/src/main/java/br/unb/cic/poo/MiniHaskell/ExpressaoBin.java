@@ -1,6 +1,6 @@
 package br.unb.cic.poo.MiniHaskell;
 
-public abstract class ExpressaoBin implements Expressao{
+public abstract class ExpressaoBin extends Expressao{
 	protected Expressao lhs;
 	protected Expressao rhs;
 	
