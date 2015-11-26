@@ -12,11 +12,11 @@ public class ExpressaoIgual extends ExpressaoBin {
 		Valor resLhs = lhs.avaliar();
 		Valor resRhs = rhs.avaliar();
 		
-		if(resLhs instanceof ValorInteiro && resRhs instanceof ValorInteiro){
-			return ((ValorInteiro)resLhs).getValor() == ((ValorInteiro)resRhs).getValor() ? new ValorBooleano(true) : new ValorBooleano(false);
+		if(resLhs.tipo().equals(Tipo.INTEIRO) && resRhs.tipo().equals(Tipo.INTEIRO)){
+			return new ValorBooleano(((ValorInteiro)resLhs).getValor().equals(((ValorInteiro)resRhs).getValor()));
 		}
-		else if(resLhs instanceof ValorBooleano && resRhs instanceof ValorBooleano){
-			return ((ValorBooleano)resLhs).getValor().equals(((ValorBooleano)resRhs).getValor()) ? new ValorBooleano(true) : new ValorBooleano(false);
+		else if(resLhs.tipo().equals(Tipo.BOOL) && resRhs.tipo().equals(Tipo.BOOL)){
+			return new ValorBooleano(((ValorBooleano)resLhs).getValor().equals(((ValorBooleano)resRhs).getValor()));
 		}
 		else
 			return null;

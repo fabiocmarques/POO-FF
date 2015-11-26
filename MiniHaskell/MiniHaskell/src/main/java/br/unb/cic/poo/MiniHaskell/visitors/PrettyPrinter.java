@@ -1,6 +1,7 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
 import br.unb.cic.poo.MiniHaskell.Expressao;
+import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaiorOuIgual;
@@ -101,6 +102,15 @@ public class PrettyPrinter implements Visitor {
 		res += " < ";
 		exp.rhs().aceitar(this);
 		res += ")";
+	}
+
+	public void visitar(ExpressaoIgual exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += "==";
+		exp.rhs().aceitar(this);
+		res += ")";
+		
 	}
 
 }

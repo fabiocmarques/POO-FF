@@ -1,6 +1,7 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
 import br.unb.cic.poo.MiniHaskell.Expressao;
+import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaiorOuIgual;
@@ -17,6 +18,7 @@ public interface Visitor {
 	public void visitar(ExpressaoMenorOuIgual exp);
 	public void visitar(ExpressaoMaior exp);
 	public void visitar(ExpressaoMenor exp);
+	public void visitar(ExpressaoIgual exp);
 	public void visitar(ExpressaoMultiplicacao exp);
 	public void visitar(Expressao exp);
 	public void visitar(ValorInteiro exp);
