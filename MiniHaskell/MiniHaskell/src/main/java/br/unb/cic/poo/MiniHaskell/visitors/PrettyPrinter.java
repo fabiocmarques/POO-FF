@@ -2,6 +2,7 @@ package br.unb.cic.poo.MiniHaskell.visitors;
 
 import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
 import br.unb.cic.poo.MiniHaskell.ValorBooleano;
@@ -51,9 +52,17 @@ public class PrettyPrinter implements Visitor {
 		
 	}
 
+
+	public void visitar(ExpressaoMultiplicacao exp) {
+		res += "(";
+		exp.lhs().aceitar(this);
+		res += " * ";
+		exp.rhs().aceitar(this);
+		res += ")";
+	}
+
 	public void visitar(Expressao exp) {
 		return;
-		
 	}
 
 }
