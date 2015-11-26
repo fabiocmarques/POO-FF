@@ -22,7 +22,7 @@ public class AplicacaoDeFuncao extends Expressao{
 		
 		AmbienteExecucao.getInstance().push();
 		for(int i = 0; i < argumentos.size(); i++) {
-			AmbienteExecucao.getInstance().declaraVariavel(funcao.getArgumentos().get(i), argumentos.get(i));
+			AmbienteExecucao.getInstance().declaraVariavel(funcao.getArgumentos().get(i), argumentos.get(i).avaliar());
 		}
 		
 		//segundo passo: avaliar o corpo da funcao e 
