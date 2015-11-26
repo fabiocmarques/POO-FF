@@ -2,7 +2,7 @@ package br.unb.cic.poo.MiniHaskell;
 
 import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
 
-public class IfThenElse implements Expressao {
+public class IfThenElse extends Expressao {
 	
 	private Expressao condicao;
 	private Expressao expThen;

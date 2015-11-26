@@ -1,5 +1,6 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
@@ -41,6 +42,11 @@ public class SubExpVisitor implements Visitor{
 	}
 
 	public void visitar(ExpressaoLet exp) {
+		return;
+		
+	}
+
+	public void visitar(Expressao exp) {
 		// TODO Auto-generated method stub
 		
 	}

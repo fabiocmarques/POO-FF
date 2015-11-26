@@ -1,5 +1,6 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
@@ -8,7 +9,9 @@ import br.unb.cic.poo.MiniHaskell.ValorBooleano;
 import br.unb.cic.poo.MiniHaskell.ValorInteiro;
 
 public interface Visitor {
+
 	public void visitar(ExpressaoMultiplicacao exp);
+	public void visitar(Expressao exp);
 	public void visitar(ValorInteiro exp);
 	public void visitar(ValorBooleano exp);
 	public void visitar(ExpressaoSoma exp);

@@ -2,7 +2,7 @@ package br.unb.cic.poo.MiniHaskell;
 
 import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
 
-public class ExpressaoLet implements Expressao {
+public class ExpressaoLet extends Expressao {
 	
 	private String id; 
 	private Expressao atribuicao;
@@ -32,7 +32,5 @@ public class ExpressaoLet implements Expressao {
 		}
 		return Tipo.ERROR;
 	}
-	public void aceitar(Visitor v) {
-		v.visitar(this);
-	}
+	
 }
