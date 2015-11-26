@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Thu Nov 12 09:12:27 BRST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0150-fb65-89f1-000005866d20 
-on database directory /Users/rbonifacio/Dropbox/unb/poo/workspace2015/imdb/test  with class loader sun.misc.Launcher$AppClassLoader@4b1210ee 
-Loaded from file:/Users/rbonifacio/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
+Wed Nov 25 22:53:43 BRST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0151-4148-1c85-000006a50940 
+on database directory /home/fernando/workspace/POO-FF/imdb/test  with class loader sun.misc.Launcher$AppClassLoader@3764951d 
+Loaded from file:/home/fernando/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_51-b16
-user.dir=/Users/rbonifacio/Dropbox/unb/poo/workspace2015/imdb
+java.runtime.version=1.8.0_65-b17
+user.dir=/home/fernando/workspace/POO-FF/imdb
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
