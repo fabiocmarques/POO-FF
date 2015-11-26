@@ -2,6 +2,10 @@ package br.unb.cic.poo.MiniHaskell.visitors;
 
 import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMaiorOuIgual;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMenor;
+import br.unb.cic.poo.MiniHaskell.ExpressaoMenorOuIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
@@ -55,6 +59,30 @@ public class SubExpVisitor implements Visitor{
 		total += 1;
 		exp.lhs().aceitar(this);
 		exp.rhs().aceitar(this);		
+	}
+
+	public void visitar(ExpressaoMaiorOuIgual exp) {
+		total += 1;
+		exp.lhs().aceitar(this);
+		exp.rhs().aceitar(this);
+		
+	}
+
+	public void visitar(ExpressaoMenorOuIgual exp) {
+		total += 1;
+		exp.lhs().aceitar(this);
+		exp.rhs().aceitar(this);
+		
+	}
+
+	public void visitar(ExpressaoMaior exp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void visitar(ExpressaoMenor exp) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
