@@ -16,39 +16,58 @@ public class GramaticaMH
   public static void main(String args []) throws ParseException
   {
     GramaticaMH parser = new GramaticaMH(System.in);
-    parser.Start();
+    while(true)    {
+      parser.Soma();
+    }
   }
 }
 
 PARSER_END(GramaticaMH)
 
-ExpressaoSoma Start():
+void Soma():
 {
   Token t;
   ExpressaoSoma s;
   int lhs = 0;
   int rhs = 0;
+  ValorInteiro res;
 }
 {
-  < PLUS >
+	
+  <PLUS>
   (
+   
+   
     t = <NUMBER>
     { lhs = Integer.parseInt(t.image);}
     
+  
+
+    
     t = <NUMBER>
-    { rhs = Integer.parseInt(t.image);}
-        
+    { rhs = Integer.parseInt(t.image);}       
   )*
-  <EOF>
+
+  < FINAL_LINHA >
+  /*<EOF>*/
 
   {
     {
       s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
     }
-    
-    return s;
+
+    res = (ValorInteiro)s.avaliar();
+		
+    System.out.println(res.getValor());
   }  
 }
+
+//void AchaSoma()://{//	//}//{// < LET >//}
+
+
+//ExpressaoLet Let()://{//  Token t;//  String id;//}//{//  < LET >//  (//    //    t = < STRING >//    {id = t;}////    < EQUALS >////    t = < NUMBER >//    {}//  //      ////	< IN >////	//    //    //    //  )*//  < FINAL_LINHA >////  //}
+
+
 
 SKIP :
 {
@@ -62,14 +81,17 @@ TOKEN : /* OPERATORS */
 {
   	/* Operador de soma na linguagem definido como "soma": */
 	< PLUS : "soma" >
-	
-| 	< MULTIPLY : "*" >
-|	< DIVIDE : "/" >
+ 	/*< LET : "let" >
+ 	< IN : "in" >
+ 	< EQUALS: "=" >*/
+
+ 	
 }
 
 TOKEN : /* NUMEROS */
 {
 	< NUMBER : (["0"-"9"])+ >
+ 	//< STRING : (["a"-"z")+ >
 }
 
 TOKEN : /* END OF LINE */

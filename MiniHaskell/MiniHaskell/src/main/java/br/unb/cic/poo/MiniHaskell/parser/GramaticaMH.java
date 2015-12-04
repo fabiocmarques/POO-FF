@@ -7,14 +7,18 @@ public class GramaticaMH implements GramaticaMHConstants {
   public static void main(String args []) throws ParseException
   {
     GramaticaMH parser = new GramaticaMH(System.in);
-    parser.Start();
+    while(true)
+    {
+      parser.Soma();
+    }
   }
 
-  static final public ExpressaoSoma Start() throws ParseException {
+  static final public void Soma() throws ParseException {
   Token t;
   ExpressaoSoma s;
   int lhs = 0;
   int rhs = 0;
+  ValorInteiro res;
     jj_consume_token(PLUS);
     label_1:
     while (true) {
@@ -31,13 +35,14 @@ public class GramaticaMH implements GramaticaMHConstants {
       t = jj_consume_token(NUMBER);
       rhs = Integer.parseInt(t.image);
     }
-    jj_consume_token(0);
+    jj_consume_token(FINAL_LINHA);
     {
       s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
     }
 
-    {if (true) return s;}
-    throw new Error("Missing return statement in function");
+    res = (ValorInteiro)s.avaliar();
+
+    System.out.println(res.getValor());
   }
 
   static private boolean jj_initialized_once = false;
@@ -56,7 +61,7 @@ public class GramaticaMH implements GramaticaMHConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x100,};
+      jj_la1_0 = new int[] {0x40,};
    }
 
   /** Constructor with InputStream. */
@@ -194,7 +199,7 @@ public class GramaticaMH implements GramaticaMHConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[10];
+    boolean[] la1tokens = new boolean[8];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -208,7 +213,7 @@ public class GramaticaMH implements GramaticaMHConstants {
         }
       }
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 8; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
