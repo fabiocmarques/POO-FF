@@ -10,6 +10,7 @@ PARSER_BEGIN(GramaticaMH)
 package br.unb.cic.poo.MiniHaskell.parser;
 
 import br.unb.cic.poo.MiniHaskell.*;
+import java.util.*;
 
 public class GramaticaMH
 {
@@ -18,9 +19,7 @@ public class GramaticaMH
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
       Expressao exp = parser.expr();
-      ValorInteiro res = (ValorInteiro)exp.avaliar();
-		
-      System.out.println(res.getValor());
+      
     }
   }
 }
@@ -38,6 +37,7 @@ Expressao getSoma():
 	
 	{return new ExpressaoSoma(lhs, rhs);} 
 }
+
 
 Expressao getLet():
 {
@@ -57,11 +57,98 @@ Expressao getLet():
 }
 
 
+void getArgumentosDecFunc(ArrayList<String> argumentos):{
+  Token t;}
+{
+    t = < STRING >
+    
+  {
+    argumentos.add(t.image);  }      
+    getArgumentosDecFunc(argumentos)
+| < RPAR >
+	{  
+		return;	}        
+    }
+
+
+DecFuncao getFunc():
+{
+  Token nome;
+  ArrayList<String> argumentos = new ArrayList<String>();
+  Expressao exp;}
+{
+	nome = < STRING >
+  
+  < LPAR >  	  getArgumentosDecFunc(argumentos)
+  
+
+  < LPAR >
+  	exp = expr()
+  < RPAR >
+
+  {    return(new DecFuncao(nome.image, argumentos, exp));
+  }}
+
+
+void getParametrosAplFuncao(ArrayList<Expressao> exprs):
+{
+  Expressao exp;}
+{
+
+ < RPAR >
+	{
+	  return;
+	}
+
+|
+	exp = expr()
+	{  	exprs.add(exp);
+	}
+  
+  getParametrosAplFuncao(exprs)
+  }
+
+
+
+Expressao getEval():
+{
+  Token nome;
+  ArrayList<Expressao> exprs = new ArrayList<Expressao>();
+  AplicacaoDeFuncao func;
+  Valor v;
+  ValorInteiro inteiro;}
+{
+  nome = <STRING>
+
+  < LPAR >
+  getParametrosAplFuncao(exprs)
+
+
+  {    func = new AplicacaoDeFuncao(nome.image, exprs);
+
+    inteiro = (ValorInteiro)func.avaliar();
+		
+    System.out.println(inteiro.getValor());
+      
+    return func.avaliar();  }  
+
+   
+
+  }
+
+
+
+
+
+
 Expressao expr():
 {
   Token t;
   Token ref;
+  Token func;
+  ValorBooleano ret = new ValorBooleano(false);
   ExpressaoSoma s;
+  DecFuncao dec;
   Expressao exp;
   int lhs = 0;
   int rhs = 0;
@@ -85,25 +172,20 @@ Expressao expr():
 	)*
 |   ref = <STRING>
 	{ return new ExpRef(ref.image);}
-
-  < FINAL_LINHA >
-  /*<EOF>*/
-
-  //{
-    //{
-    //  s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
-  //  }
-
-//    res = (ValorInteiro)s.avaliar();
-		
-   // System.out.println(res.getValor());
-  //}  
+|	< FUNC >
+	(
+	  dec = getFunc()
+	  {
+	    AmbienteExecucao.getInstance().declaraFuncao(dec);	  }
+	  {return ret = new ValorBooleano(true);}	)*
+| 	< EVAL >
+	exp = getEval()
+	{
+	  return ret = new ValorBooleano(true);	}
+ 
 }
 
-//void AchaSoma()://{//	//}//{// < LET >//}
 
-
-//ExpressaoLet Let()://{//  Token t;//  String id;//}//{//  < LET >//  (//    //    t = < STRING >//    {id = t;}////    < EQUALS >////    t = < NUMBER >//    {}//  //      ////	< IN >////	//    //    //    //  )*//  < FINAL_LINHA >////  //}
 
 
 
@@ -120,8 +202,12 @@ TOKEN : /* OPERATORS */
   	/* Operador de soma na linguagem definido como "soma": */
 	< PLUS : "soma" >
  |  < LET : "let" >
+ | 	< LPAR: "(" >
+ | 	< RPAR : ")" >
+ | 	< FUNC : "func" >
  |	< IN : "in" >
  |	< EQUALS: "=" >
+ | 	< EVAL: "eval" >
 
  	
 }
