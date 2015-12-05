@@ -19,9 +19,7 @@ public class GramaticaMH
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
       Expressao exp = parser.expr();
-      ValorBooleano res = (ValorBooleano)exp.avaliar();
-		
-      System.out.println(res.getValor());
+      
     }
   }
 }
@@ -59,14 +57,14 @@ Expressao getLet():
 }
 
 
-void getArgumentos(ArrayList<String> argumentos):{
+void getArgumentosDecFunc(ArrayList<String> argumentos):{
   Token t;}
 {
     t = < STRING >
     
   {
     argumentos.add(t.image);  }      
-    getArgumentos(argumentos)
+    getArgumentosDecFunc(argumentos)
 | < RPAR >
 	{  
 		return;	}        
@@ -81,7 +79,7 @@ DecFuncao getFunc():
 {
 	nome = < STRING >
   
-  < LPAR >  	  getArgumentos(argumentos)
+  < LPAR >  	  getArgumentosDecFunc(argumentos)
   
 
   < LPAR >
@@ -92,7 +90,7 @@ DecFuncao getFunc():
   }}
 
 
-void getParametros(ArrayList<Expressao> exprs):
+void getParametrosAplFuncao(ArrayList<Expressao> exprs):
 {
   Expressao exp;}
 {
@@ -107,7 +105,7 @@ void getParametros(ArrayList<Expressao> exprs):
 	{  	exprs.add(exp);
 	}
   
-  getParametros(exprs)
+  getParametrosAplFuncao(exprs)
   }
 
 
@@ -117,15 +115,21 @@ Expressao getEval():
   Token nome;
   ArrayList<Expressao> exprs = new ArrayList<Expressao>();
   AplicacaoDeFuncao func;
-  Valor v;}
+  Valor v;
+  ValorInteiro inteiro;}
 {
   nome = <STRING>
 
   < LPAR >
-  getParametros(exprs)
+  getParametrosAplFuncao(exprs)
 
 
   {    func = new AplicacaoDeFuncao(nome.image, exprs);
+
+    inteiro = (ValorInteiro)func.avaliar();
+		
+    System.out.println(inteiro.getValor());
+      
     return func.avaliar();  }  
 
    
@@ -176,6 +180,8 @@ Expressao expr():
 	  {return ret = new ValorBooleano(true);}	)*
 | 	< EVAL >
 	exp = getEval()
+	{
+	  return ret = new ValorBooleano(true);	}
  
 }
 

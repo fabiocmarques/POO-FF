@@ -11,9 +11,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     while(true)
     {
       Expressao exp = parser.expr();
-      ValorBooleano res = (ValorBooleano)exp.avaliar();
 
-      System.out.println(res.getValor());
     }
   }
 
@@ -40,13 +38,13 @@ public class GramaticaMH implements GramaticaMHConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public void getArgumentos(ArrayList<String> argumentos) throws ParseException {
+  static final public void getArgumentosDecFunc(ArrayList<String> argumentos) throws ParseException {
   Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case STRING:
       t = jj_consume_token(STRING);
     argumentos.add(t.image);
-      getArgumentos(argumentos);
+      getArgumentosDecFunc(argumentos);
       break;
     case RPAR:
       jj_consume_token(RPAR);
@@ -65,7 +63,7 @@ public class GramaticaMH implements GramaticaMHConstants {
   Expressao exp;
     nome = jj_consume_token(STRING);
     jj_consume_token(LPAR);
-    getArgumentos(argumentos);
+    getArgumentosDecFunc(argumentos);
     jj_consume_token(LPAR);
     exp = expr();
     jj_consume_token(RPAR);
@@ -73,7 +71,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     throw new Error("Missing return statement in function");
   }
 
-  static final public void getParametros(ArrayList<Expressao> exprs) throws ParseException {
+  static final public void getParametrosAplFuncao(ArrayList<Expressao> exprs) throws ParseException {
   Expressao exp;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case RPAR:
@@ -88,7 +86,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     case STRING:
       exp = expr();
         exprs.add(exp);
-      getParametros(exprs);
+      getParametrosAplFuncao(exprs);
       break;
     default:
       jj_la1[1] = jj_gen;
@@ -102,10 +100,16 @@ public class GramaticaMH implements GramaticaMHConstants {
   ArrayList<Expressao> exprs = new ArrayList<Expressao>();
   AplicacaoDeFuncao func;
   Valor v;
+  ValorInteiro inteiro;
     nome = jj_consume_token(STRING);
     jj_consume_token(LPAR);
-    getParametros(exprs);
+    getParametrosAplFuncao(exprs);
     func = new AplicacaoDeFuncao(nome.image, exprs);
+
+    inteiro = (ValorInteiro)func.avaliar();
+
+    System.out.println(inteiro.getValor());
+
     {if (true) return func.avaliar();}
     throw new Error("Missing return statement in function");
   }
@@ -187,6 +191,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     case EVAL:
       jj_consume_token(EVAL);
       exp = getEval();
+          {if (true) return ret = new ValorBooleano(true);}
       break;
     default:
       jj_la1[5] = jj_gen;
