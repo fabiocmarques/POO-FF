@@ -19,9 +19,12 @@ public class GramaticaMH
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
       Expressao exp = parser.expr();
-      /*ValorInteiro i = (ValorInteiro)exp.avaliar();
       
-      System.out.println(i.avaliar()); */  
+ 	  if(exp.avaliar() instanceof ValorInteiro){
+      	ValorInteiro i = (ValorInteiro)exp.avaliar();
+      
+      	System.out.println(i.getValor()); 
+      }
     }
   }
 }
@@ -136,15 +139,7 @@ Expressao getEval():
 
   < LPAR >
   getParametrosAplFuncao(exprs)
-
-
-  {    func = new AplicacaoDeFuncao(nome.image, exprs);
-
-    inteiro = (ValorInteiro)func.avaliar();
-		
-    System.out.println(inteiro.getValor());
-      
-    return func.avaliar();  }
+  {    return new AplicacaoDeFuncao(nome.image, exprs);  }
   }
 
 
@@ -200,7 +195,8 @@ Expressao expr():
 | 	< EVAL >
 	exp = getEval()
 	{
-	  return ret = new ValorBooleano(true);	}
+		return exp;
+	}
  
 }
 

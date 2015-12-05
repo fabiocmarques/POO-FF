@@ -1,28 +1,39 @@
 package br.unb.cic.poo.MiniHaskell;
 
 public class TamanhoLista extends Expressao{
-	Lista lista;
+	Expressao listaExp;
 	int tam;
 	
-	public TamanhoLista(Lista lista) {
-		this.lista = lista;
+	public TamanhoLista(Expressao listaExp) {
+		this.listaExp = listaExp;
 	}
 	
 	@Override
 	public Valor avaliar() {
-		
+		if(listaExp.avaliar().tipo().equals(Tipo.LISTA)){
+			for(Lista lista = (Lista)listaExp.avaliar(); !lista.IsEmptyList(); lista = ((ListaValorada)lista).next()){
+				tam++;
+			}
+			return new ValorInteiro(tam);
+		}
+		else{
+			throw new RuntimeException("Lista inválida em expressao TamanhoLista");
+		}
 	}
 
 	@Override
 	public boolean checarTipo() {
-		// TODO Auto-generated method stub
-		return false;
+		Valor lista = listaExp.avaliar();
+		
+		return lista.checarTipo() && lista.tipo().equals(Tipo.LISTA);
 	}
 
 	@Override
 	public Tipo tipo() {
-		// TODO Auto-generated method stub
-		return null;
+		if(!checarTipo()){
+			return Tipo.ERROR;
+		}
+		return Tipo.INTEIRO;
 	}
 	
 }
