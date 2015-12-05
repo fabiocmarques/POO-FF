@@ -12,10 +12,16 @@ public class GramaticaMH implements GramaticaMHConstants {
     {
       Expressao exp = parser.expr();
 
-          if(exp.avaliar() instanceof ValorInteiro){
+      if(exp.avaliar() instanceof ValorInteiro){
         ValorInteiro i = (ValorInteiro)exp.avaliar();
 
         System.out.println(i.getValor());
+      }
+
+      if(exp.avaliar() instanceof ValorBooleano){
+                ValorBooleano b = (ValorBooleano)exp.avaliar();
+
+        System.out.println(b.getValor());
       }
     }
   }
@@ -26,6 +32,51 @@ public class GramaticaMH implements GramaticaMHConstants {
     lhs = expr();
     rhs = expr();
          {if (true) return new ExpressaoSoma(lhs, rhs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getEquals() throws ParseException {
+        Expressao lhs;
+        Expressao rhs;
+    lhs = expr();
+    rhs = expr();
+         {if (true) return new ExpressaoIgual(lhs, rhs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getMaior() throws ParseException {
+        Expressao lhs;
+        Expressao rhs;
+    lhs = expr();
+    rhs = expr();
+         {if (true) return new ExpressaoMaior(lhs, rhs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getMenor() throws ParseException {
+        Expressao lhs;
+        Expressao rhs;
+    lhs = expr();
+    rhs = expr();
+         {if (true) return new ExpressaoMenor(lhs, rhs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getMaiorEq() throws ParseException {
+        Expressao lhs;
+        Expressao rhs;
+    lhs = expr();
+    rhs = expr();
+         {if (true) return new ExpressaoMaiorOuIgual(lhs, rhs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getMenorEq() throws ParseException {
+        Expressao lhs;
+        Expressao rhs;
+    lhs = expr();
+    rhs = expr();
+         {if (true) return new ExpressaoMenorOuIgual(lhs, rhs);}
     throw new Error("Missing return statement in function");
   }
 
@@ -88,20 +139,27 @@ public class GramaticaMH implements GramaticaMHConstants {
   static final public void getParametrosAplFuncao(ArrayList<Expressao> exprs) throws ParseException {
   Expressao exp;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case RPAR:
-      jj_consume_token(RPAR);
-          {if (true) return;}
-      break;
     case PLUS:
+    case MENOR:
+    case MAIOR:
+    case IGUAL:
+    case MENOR_EQ:
+    case MAIOR_EQ:
     case MULT:
     case LET:
     case FUNC:
     case EVAL:
+    case IF:
+    case NEG:
     case NUMBER:
     case STRING:
       exp = expr();
         exprs.add(exp);
       getParametrosAplFuncao(exprs);
+      break;
+    case RPAR:
+      jj_consume_token(RPAR);
+          {if (true) return;}
       break;
     default:
       jj_la1[1] = jj_gen;
@@ -110,7 +168,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     }
   }
 
-  static final public Expressao getEval() throws ParseException {
+  static final public AplicacaoDeFuncao getEval() throws ParseException {
   Token nome;
   ArrayList<Expressao> exprs = new ArrayList<Expressao>();
   AplicacaoDeFuncao func;
@@ -129,11 +187,13 @@ public class GramaticaMH implements GramaticaMHConstants {
   Token func;
   ValorBooleano ret = new ValorBooleano(false);
   ExpressaoSoma s;
+  Expressao if1, then1, else1;
   DecFuncao dec;
   Expressao exp;
   int lhs = 0;
   int rhs = 0;
   ValorInteiro res;
+  Token negNumber;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case PLUS:
       jj_consume_token(PLUS);
@@ -141,10 +201,17 @@ public class GramaticaMH implements GramaticaMHConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
         case MULT:
         case LET:
         case FUNC:
         case EVAL:
+        case IF:
+        case NEG:
         case NUMBER:
         case STRING:
           ;
@@ -163,10 +230,17 @@ public class GramaticaMH implements GramaticaMHConstants {
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
         case MULT:
         case LET:
         case FUNC:
         case EVAL:
+        case IF:
+        case NEG:
         case NUMBER:
         case STRING:
           ;
@@ -225,8 +299,178 @@ public class GramaticaMH implements GramaticaMHConstants {
       exp = getEval();
                 {if (true) return exp;}
       break;
+    case IGUAL:
+      jj_consume_token(IGUAL);
+      label_5:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[6] = jj_gen;
+          break label_5;
+        }
+        exp = getEquals();
+                 {if (true) return exp;}
+      }
+      break;
+    case MAIOR:
+      jj_consume_token(MAIOR);
+      label_6:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[7] = jj_gen;
+          break label_6;
+        }
+        exp = getMaior();
+                 {if (true) return exp;}
+      }
+      break;
+    case MENOR:
+      jj_consume_token(MENOR);
+      label_7:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[8] = jj_gen;
+          break label_7;
+        }
+        exp = getMenor();
+                 {if (true) return exp;}
+      }
+      break;
+    case MAIOR_EQ:
+      jj_consume_token(MAIOR_EQ);
+      label_8:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[9] = jj_gen;
+          break label_8;
+        }
+        exp = getMaiorEq();
+                 {if (true) return exp;}
+      }
+      break;
+    case MENOR_EQ:
+      jj_consume_token(MENOR_EQ);
+      label_9:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[10] = jj_gen;
+          break label_9;
+        }
+        exp = getMenorEq();
+                 {if (true) return exp;}
+      }
+      break;
+    case IF:
+      jj_consume_token(IF);
+      if1 = expr();
+      jj_consume_token(THEN);
+      then1 = expr();
+      jj_consume_token(ELSE);
+      else1 = expr();
+         {if (true) return(new IfThenElse(if1, then1, else1));}
+      break;
+    case NEG:
+      jj_consume_token(NEG);
+      label_10:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case NUMBER:
+          ;
+          break;
+        default:
+          jj_la1[11] = jj_gen;
+          break label_10;
+        }
+        negNumber = jj_consume_token(NUMBER);
+                 {if (true) return new ExpressaoMultiplicacao(new ValorInteiro(-1), new ValorInteiro(Integer.parseInt(negNumber.image)));}
+      }
+      break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -243,13 +487,13 @@ public class GramaticaMH implements GramaticaMHConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[7];
+  static final private int[] jj_la1 = new int[13];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x8200,0xe6e0,0xe4e0,0xe4e0,0x8000,0x8000,0xe4e0,};
+      jj_la1_0 = new int[] {0x1004000,0x1ccdfe0,0x1cc9fe0,0x1cc9fe0,0x1000000,0x1000000,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x800000,0x1cc9fe0,};
    }
 
   /** Constructor with InputStream. */
@@ -270,7 +514,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -284,7 +528,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -301,7 +545,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -311,7 +555,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -327,7 +571,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -336,7 +580,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 7; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -387,12 +631,12 @@ public class GramaticaMH implements GramaticaMHConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[17];
+    boolean[] la1tokens = new boolean[26];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 13; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -401,7 +645,7 @@ public class GramaticaMH implements GramaticaMHConstants {
         }
       }
     }
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 26; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
