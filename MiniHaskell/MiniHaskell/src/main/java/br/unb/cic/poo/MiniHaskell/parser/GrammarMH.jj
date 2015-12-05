@@ -19,9 +19,18 @@ public class GramaticaMH
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
       Expressao exp = parser.expr();
-      /*ValorInteiro i = (ValorInteiro)exp.avaliar();
+
+      if(exp.avaliar() instanceof ValorInteiro){
+        ValorInteiro i = (ValorInteiro)exp.avaliar();
       
-      System.out.println(i.avaliar()); */  
+      	System.out.println(i.getValor());
+      }
+      
+      if(exp.avaliar() instanceof ValorBooleano){		ValorBooleano b = (ValorBooleano)exp.avaliar();
+      
+      	System.out.println(b.getValor());
+      }
+        
     }
   }
 }
@@ -39,6 +48,70 @@ Expressao getSoma():
 	
 	{return new ExpressaoSoma(lhs, rhs);} 
 }
+
+
+Expressao getEquals():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoIgual(lhs, rhs);} 
+}
+
+
+Expressao getMaior():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoMaior(lhs, rhs);} 
+}
+
+Expressao getMenor():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoMenor(lhs, rhs);} 
+}
+
+Expressao getMaiorEq():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoMaiorOuIgual(lhs, rhs);} 
+}
+
+
+Expressao getMenorEq():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoMenorOuIgual(lhs, rhs);} 
+}
+
 
 Expressao getMult():
 {
@@ -124,7 +197,7 @@ void getParametrosAplFuncao(ArrayList<Expressao> exprs):
 
 
 
-Expressao getEval():
+AplicacaoDeFuncao getEval():
 {
   Token nome;
   ArrayList<Expressao> exprs = new ArrayList<Expressao>();
@@ -139,12 +212,8 @@ Expressao getEval():
 
 
   {    func = new AplicacaoDeFuncao(nome.image, exprs);
-
-    inteiro = (ValorInteiro)func.avaliar();
-		
-    System.out.println(inteiro.getValor());
       
-    return func.avaliar();  }
+    return func;  }
   }
 
 
@@ -159,6 +228,7 @@ Expressao expr():
   Token func;
   ValorBooleano ret = new ValorBooleano(false);
   ExpressaoSoma s;
+  Expressao if1, then1, else1;
   DecFuncao dec;
   Expressao exp;
   int lhs = 0;
@@ -173,6 +243,7 @@ Expressao expr():
    		
    		{return exp;}
   	)*
+  	
 | < MULT >
 	(
    		exp = getMult()
@@ -180,29 +251,78 @@ Expressao expr():
    		{return exp;}
   	)*
 
-
 |	t = <NUMBER> 
 	{ return new ValorInteiro(Integer.parseInt(t.image));}
+	
 |	<LET>
 	(
 		exp = getLet()
 		
 		{return exp;}
 	)*
+	
 |   ref = <STRING>
 	{ return new ExpRef(ref.image);}
+	
 |	< FUNC >
 	(
 	  dec = getFunc()
 	  {
 	    AmbienteExecucao.getInstance().declaraFuncao(dec);	  }
 	  {return ret = new ValorBooleano(true);}	)*
+	
 | 	< EVAL >
 	exp = getEval()
 	{
-	  return ret = new ValorBooleano(true);	}
+	  return exp;	}
+
+| 	< IGUAL >
+	(
+   		exp = getEquals()
+   		
+   		{return exp;}
+  	)*
+	
+| 	< MAIOR >
+	(
+   		exp = getMaior()
+   		
+   		{return exp;}
+  	)*
+
+| 	< MENOR >
+	(
+   		exp = getMenor()
+   		
+   		{return exp;}
+  	)*
+
+| 	< MAIOR_EQ >
+	(
+   		exp = getMaiorEq()
+   		
+   		{return exp;}
+  	)*
+
+| 	< MENOR_EQ >
+	(
+   		exp = getMenorEq()
+   		
+   		{return exp;}
+  	)*
+
+| 	< IF >
+	if1 = expr()
+	< THEN >
+	then1 = expr()
+	< ELSE >
+	else1 = expr()
+
+	{return(new IfThenElse(if1, then1, else1));}
  
 }
+
+
 
 
 
@@ -220,6 +340,11 @@ TOKEN : /* OPERATORS */
 {
   	/* Operador de soma na linguagem definido como "soma": */
 	< PLUS : "soma" >
+ |  < MENOR : "menor" >
+ | 	< MAIOR : "maior" >
+ |  < IGUAL : "equals" >
+ |  < MENOR_EQ : "menor_eq" >
+ |  < MAIOR_EQ : "maior_eq" > 
  | 	< MULT : "mult" > 
  |  < LET : "let" >
  | 	< LPAR: "(" >
@@ -228,6 +353,9 @@ TOKEN : /* OPERATORS */
  |	< IN : "in" >
  |	< EQUALS: "=" >
  | 	< EVAL: "eval" >
+ | 	< IF: "if" >
+ | 	< THEN: "then" >
+ | 	< ELSE: "else" >
 
  	
 }
