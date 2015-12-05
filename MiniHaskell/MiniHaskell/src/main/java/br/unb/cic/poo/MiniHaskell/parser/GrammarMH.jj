@@ -19,7 +19,9 @@ public class GramaticaMH
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
       Expressao exp = parser.expr();
+      /*ValorInteiro i = (ValorInteiro)exp.avaliar();
       
+      System.out.println(i.avaliar()); */  
     }
   }
 }
@@ -36,6 +38,18 @@ Expressao getSoma():
 	rhs = expr()
 	
 	{return new ExpressaoSoma(lhs, rhs);} 
+}
+
+Expressao getMult():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoMultiplicacao(lhs, rhs);} 
 }
 
 
@@ -130,10 +144,7 @@ Expressao getEval():
 		
     System.out.println(inteiro.getValor());
       
-    return func.avaliar();  }  
-
-   
-
+    return func.avaliar();  }
   }
 
 
@@ -162,6 +173,14 @@ Expressao expr():
    		
    		{return exp;}
   	)*
+| < MULT >
+	(
+   		exp = getMult()
+   		
+   		{return exp;}
+  	)*
+
+
 |	t = <NUMBER> 
 	{ return new ValorInteiro(Integer.parseInt(t.image));}
 |	<LET>
@@ -201,6 +220,7 @@ TOKEN : /* OPERATORS */
 {
   	/* Operador de soma na linguagem definido como "soma": */
 	< PLUS : "soma" >
+ | 	< MULT : "mult" > 
  |  < LET : "let" >
  | 	< LPAR: "(" >
  | 	< RPAR : ")" >
@@ -215,7 +235,7 @@ TOKEN : /* OPERATORS */
 TOKEN : /* NUMEROS */
 {
 	< NUMBER : (["0"-"9"])+ >
- |	< STRING : (["a"-"z"])+ >
+ |	< STRING : (["a"-"z"] | ["A"-"Z"])+ >
 }
 
 TOKEN : /* END OF LINE */
