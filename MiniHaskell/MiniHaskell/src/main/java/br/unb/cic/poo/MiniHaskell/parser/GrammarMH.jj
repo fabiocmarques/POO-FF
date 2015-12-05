@@ -17,49 +17,87 @@ public class GramaticaMH
   {
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
-      parser.Soma();
+      Expressao exp = parser.expr();
+      ValorInteiro res = (ValorInteiro)exp.avaliar();
+		
+      System.out.println(res.getValor());
     }
   }
 }
 
 PARSER_END(GramaticaMH)
 
-void Soma():
+Expressao getSoma():
+{
+	Expressao lhs;
+	Expressao rhs;
+}
+{
+	lhs = expr()
+	rhs = expr()
+	
+	{return new ExpressaoSoma(lhs, rhs);} 
+}
+
+Expressao getLet():
+{
+	Expressao expAt;
+	Expressao expCorpo;
+	String id;
+	Token idToken;
+}
+{
+	idToken = <STRING>
+	<EQUALS>
+	expAt = expr()
+	<IN>
+	expCorpo = expr()
+	
+	{return new ExpressaoLet(idToken.image, expAt, expCorpo);}
+}
+
+
+Expressao expr():
 {
   Token t;
+  Token ref;
   ExpressaoSoma s;
+  Expressao exp;
   int lhs = 0;
   int rhs = 0;
   ValorInteiro res;
 }
 {
 	
-  <PLUS>
-  (
-   
-   
-    t = <NUMBER>
-    { lhs = Integer.parseInt(t.image);}
-    
-  
-
-    
-    t = <NUMBER>
-    { rhs = Integer.parseInt(t.image);}       
-  )*
+  	<PLUS>
+  	(
+   		exp = getSoma()
+   		
+   		{return exp;}
+  	)*
+|	t = <NUMBER> 
+	{ return new ValorInteiro(Integer.parseInt(t.image));}
+|	<LET>
+	(
+		exp = getLet()
+		
+		{return exp;}
+	)*
+|   ref = <STRING>
+	{ return new ExpRef(ref.image);}
 
   < FINAL_LINHA >
   /*<EOF>*/
 
-  {
-    {
-      s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
-    }
+  //{
+    //{
+    //  s = new ExpressaoSoma(new ValorInteiro(lhs), new ValorInteiro(rhs));
+  //  }
 
-    res = (ValorInteiro)s.avaliar();
+//    res = (ValorInteiro)s.avaliar();
 		
-    System.out.println(res.getValor());
-  }  
+   // System.out.println(res.getValor());
+  //}  
 }
 
 //void AchaSoma()://{//	//}//{// < LET >//}
@@ -81,9 +119,9 @@ TOKEN : /* OPERATORS */
 {
   	/* Operador de soma na linguagem definido como "soma": */
 	< PLUS : "soma" >
- 	/*< LET : "let" >
- 	< IN : "in" >
- 	< EQUALS: "=" >*/
+ |  < LET : "let" >
+ |	< IN : "in" >
+ |	< EQUALS: "=" >
 
  	
 }
@@ -91,7 +129,7 @@ TOKEN : /* OPERATORS */
 TOKEN : /* NUMEROS */
 {
 	< NUMBER : (["0"-"9"])+ >
- 	//< STRING : (["a"-"z")+ >
+ |	< STRING : (["a"-"z"])+ >
 }
 
 TOKEN : /* END OF LINE */
