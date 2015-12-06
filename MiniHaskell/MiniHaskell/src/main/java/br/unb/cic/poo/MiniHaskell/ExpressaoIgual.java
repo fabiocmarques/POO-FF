@@ -29,7 +29,7 @@ public class ExpressaoIgual extends ExpressaoBin {
 
 	@Override
 	public Tipo tipo() {
-		return Tipo.BOOL;
+		return checarTipo() ? Tipo.BOOL : Tipo.ERROR;
 	}
 
 }

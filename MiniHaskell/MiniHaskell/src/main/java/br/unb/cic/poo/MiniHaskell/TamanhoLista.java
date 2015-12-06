@@ -7,7 +7,6 @@ public class TamanhoLista extends Expressao{
 	public TamanhoLista(Expressao listaExp) {
 		this.listaExp = listaExp;
 	}
-	
 	@Override
 	public Valor avaliar() {
 		if(listaExp.avaliar().tipo().equals(Tipo.LISTA)){

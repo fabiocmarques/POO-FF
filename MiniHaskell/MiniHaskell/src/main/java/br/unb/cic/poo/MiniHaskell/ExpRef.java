@@ -10,6 +10,9 @@ public class ExpRef extends Expressao {
 	}
 
 	public Valor avaliar() {
+		if(!checarTipo()){
+			throw new RuntimeException("Variável " + id + " não declarada");
+		}
 		Expressao exp = AmbienteExecucao.getInstance().consultaReferencia(id);
 		
 		return exp.avaliar();

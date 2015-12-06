@@ -16,13 +16,13 @@ public class InserirNaListaTest extends TestCase {
 		
 		assertTrue(l1.next().IsEmptyList());
 		
-		insert = new InserirNaLista(new ValorInteiro(4), l1);
+		insert = new InserirNaLista(new ExpressaoSoma(new ValorInteiro(2), new ValorInteiro(2)), l1);
 		
-		ListaValorada l2 = (ListaValorada)insert.avaliar();
+		l1 = (ListaValorada)insert.avaliar();
 		
-		assertFalse(l2.IsEmptyList());
+		assertFalse(l1.IsEmptyList());
 		
-		assertEquals(((ValorInteiro) l2.valor()).getValor(),  new Integer(4));
-		assertEquals(((ValorInteiro) ((ListaValorada)l2.next()).valor()).getValor(),  new Integer(3));
+		assertEquals(((ValorInteiro) l1.valor()).getValor(),  new Integer(4));
+		assertEquals(((ValorInteiro) ((ListaValorada)l1.next()).valor()).getValor(),  new Integer(3));
 	}
 }

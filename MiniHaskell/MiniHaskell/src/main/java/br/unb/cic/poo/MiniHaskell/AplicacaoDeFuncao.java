@@ -1,5 +1,6 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
@@ -20,9 +21,15 @@ public class AplicacaoDeFuncao extends Expressao{
 		//associando os argumentos aos parametros formais 
 		//da declaracao de funcao. 
 		
+		ArrayList<Expressao> argumentosAux = new ArrayList<Expressao>();
+		
+		for(Expressao exp : argumentos){
+			argumentosAux.add(exp.avaliar());
+		}
+		
 		AmbienteExecucao.getInstance().push();
 		for(int i = 0; i < argumentos.size(); i++) {
-			AmbienteExecucao.getInstance().declaraVariavel(funcao.getArgumentos().get(i), argumentos.get(i).avaliar());
+			AmbienteExecucao.getInstance().declaraVariavel(funcao.getArgumentos().get(i), argumentosAux.get(i));
 		}
 		
 		//segundo passo: avaliar o corpo da funcao e 
@@ -34,13 +41,15 @@ public class AplicacaoDeFuncao extends Expressao{
 	}
 
 	public boolean checarTipo() {
-		// TODO Auto-generated method stub
-		return false;
+		return !tipo().equals(Tipo.ERROR);
 	}
 
 	public Tipo tipo() {
-		// TODO Auto-generated method stub
-		return null;
+		DecFuncao funcao = AmbienteExecucao.getInstance().consultaFuncao(nome);
+		if(funcao == null){
+			return Tipo.ERROR;
+		}
+		return this.avaliar().tipo();
 	}
 
 	public void aceitar(Visitor v) {

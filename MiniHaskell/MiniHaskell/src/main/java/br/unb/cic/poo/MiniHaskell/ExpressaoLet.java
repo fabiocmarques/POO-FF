@@ -16,8 +16,9 @@ public class ExpressaoLet extends Expressao {
 	}
 
 	public Valor avaliar() {
+		Valor valorAtt = atribuicao.avaliar();
 		AmbienteExecucao.getInstance().push();
-		AmbienteExecucao.getInstance().declaraVariavel(id, atribuicao);
+		AmbienteExecucao.getInstance().declaraVariavel(id, valorAtt);
 		Valor res = corpo.avaliar();
 		AmbienteExecucao.getInstance().pop();
 		return res;

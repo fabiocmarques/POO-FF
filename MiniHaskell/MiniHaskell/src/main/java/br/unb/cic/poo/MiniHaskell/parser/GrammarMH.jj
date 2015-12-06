@@ -18,21 +18,48 @@ public class GramaticaMH
   {
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)    {
-      Expressao exp = parser.expr();
 
-      if(exp.avaliar() instanceof ValorInteiro){
-        ValorInteiro i = (ValorInteiro)exp.avaliar();
-      
-      	System.out.println(i.getValor());
-      }
-      
-      if(exp.avaliar() instanceof ValorBooleano){		ValorBooleano b = (ValorBooleano)exp.avaliar();
-      
-      	System.out.println(b.getValor());
-      }
-    }
+		try{
+		  	Expressao exp = parser.expr();
+			Valor valor = exp.avaliar();
+	
+			if(valor instanceof ValorInteiro){
+		        ValorInteiro i = (ValorInteiro) valor;
+		      
+		      	System.out.println(i.getValor());
+	     	}
+	      
+	      	if(exp.avaliar() instanceof ValorBooleano){
+				ValorBooleano b = (ValorBooleano)valor;
+		      
+		      	System.out.println(b.getValor());
+	      	}
+	
+	      	if(exp.avaliar() instanceof Lista)
+	      	{
+				for(Lista lista = (Lista)valor; !lista.IsEmptyList(); lista = ((ListaValorada)lista).next()){
+					ListaValorada l = (ListaValorada)lista;
+					System.out.print(((ValorInteiro)l.valor()).getValor() + " ");
+				}
+				System.out.println("/");
+	     	}
+
+	  	}
+	  	catch(RuntimeException ex)	  	{
+	  	  	System.out.println("Erro!");	  		System.out.println(ex.getMessage());
+	  		//ex.printStackTrace();
+	  		continue;
+	  	}
+	  	catch(ParseException ex)	  	{			System.out.println("Expressao invalida!");
+			//ex.printStackTrace();
+			parser.ReInit(System.in);
+			continue;
+	  	}
+
+	  		}
   }
 }
+
 
 PARSER_END(GramaticaMH)
 
@@ -212,9 +239,26 @@ AplicacaoDeFuncao getEval():
   {    return new AplicacaoDeFuncao(nome.image, exprs);  }
   }
 
+Expressao getInserir():{	Expressao expValor;
+	Expressao expLista;
+}
+{	expValor = expr()
+	< IN >
+	expLista = expr()
 
+	{return new InserirNaLista(expValor, expLista);}
+}
 
+Expressao getRecupera():
+{	Expressao expIndex;
+	Expressao expLista;
+}
+{	expIndex = expr()
+	< FROM >
+	expLista = expr()
 
+	{return new RecuperaElemento(expIndex, expLista);}
+}
 
 
 Expressao expr():
@@ -318,10 +362,24 @@ Expressao expr():
 	{return(new IfThenElse(if1, then1, else1));}
 |
 	< NEG >
-	(		negNumber = < NUMBER >
+	(		exp = expr()
 
-		{return new ExpressaoMultiplicacao(new ValorInteiro(-1), new ValorInteiro(Integer.parseInt(negNumber.image)));}
+		{return new ExpressaoMultiplicacao(new ValorInteiro(-1), exp);}
 	)*
+|
+	< LISTA >	{return new ListaVazia();}
+|
+	< INSERIR >
+	(		exp = getInserir()
+		{return exp;}
+	)*
+|
+	< RECUPERA >
+	(
+		exp = getRecupera()
+		{return exp;}
+	)*
+
 }
 
 
@@ -359,6 +417,10 @@ TOKEN : /* OPERATORS */
  | 	< THEN: "then" >
  | 	< ELSE: "else" >
  |  < NEG: "neg" >
+ |  < LISTA: "lista">
+ |  < INSERIR: "inserir" >
+ |  < RECUPERA: "get" >
+ |  < FROM: "from">
 
  	
 }

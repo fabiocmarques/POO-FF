@@ -10,20 +10,50 @@ public class GramaticaMH implements GramaticaMHConstants {
     GramaticaMH parser = new GramaticaMH(System.in);
     while(true)
     {
-      Expressao exp = parser.expr();
 
-      if(exp.avaliar() instanceof ValorInteiro){
-        ValorInteiro i = (ValorInteiro)exp.avaliar();
+                try{
+                        Expressao exp = parser.expr();
+                        Valor valor = exp.avaliar();
 
-        System.out.println(i.getValor());
-      }
+                        if(valor instanceof ValorInteiro){
+                        ValorInteiro i = (ValorInteiro) valor;
 
-      if(exp.avaliar() instanceof ValorBooleano){
-                ValorBooleano b = (ValorBooleano)exp.avaliar();
+                        System.out.println(i.getValor());
+                }
 
-        System.out.println(b.getValor());
-      }
-    }
+                if(exp.avaliar() instanceof ValorBooleano){
+                                ValorBooleano b = (ValorBooleano)valor;
+
+                        System.out.println(b.getValor());
+                }
+
+                if(exp.avaliar() instanceof Lista)
+                {
+                                for(Lista lista = (Lista)valor; !lista.IsEmptyList(); lista = ((ListaValorada)lista).next()){
+                                        ListaValorada l = (ListaValorada)lista;
+                                        System.out.print(((ValorInteiro)l.valor()).getValor() + " ");
+                                }
+                                System.out.println("/");
+                }
+
+                }
+                catch(RuntimeException ex)
+                {
+                        System.out.println("Erro!");
+                        System.out.println(ex.getMessage());
+                        //ex.printStackTrace();
+                        continue;
+                }
+                catch(ParseException ex)
+                {
+                        System.out.println("Expressao invalida!");
+                        //ex.printStackTrace();
+                        parser.ReInit(System.in);
+                        continue;
+                }
+
+
+        }
   }
 
   static final public Expressao getSoma() throws ParseException {
@@ -151,6 +181,9 @@ public class GramaticaMH implements GramaticaMHConstants {
     case EVAL:
     case IF:
     case NEG:
+    case LISTA:
+    case INSERIR:
+    case RECUPERA:
     case NUMBER:
     case STRING:
       exp = expr();
@@ -178,6 +211,26 @@ public class GramaticaMH implements GramaticaMHConstants {
     jj_consume_token(LPAR);
     getParametrosAplFuncao(exprs);
     {if (true) return new AplicacaoDeFuncao(nome.image, exprs);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getInserir() throws ParseException {
+        Expressao expValor;
+        Expressao expLista;
+    expValor = expr();
+    jj_consume_token(IN);
+    expLista = expr();
+         {if (true) return new InserirNaLista(expValor, expLista);}
+    throw new Error("Missing return statement in function");
+  }
+
+  static final public Expressao getRecupera() throws ParseException {
+        Expressao expIndex;
+        Expressao expLista;
+    expIndex = expr();
+    jj_consume_token(FROM);
+    expLista = expr();
+         {if (true) return new RecuperaElemento(expIndex, expLista);}
     throw new Error("Missing return statement in function");
   }
 
@@ -212,6 +265,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -241,6 +297,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -316,6 +375,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -345,6 +407,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -374,6 +439,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -403,6 +471,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -432,6 +503,9 @@ public class GramaticaMH implements GramaticaMHConstants {
         case EVAL:
         case IF:
         case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
         case STRING:
           ;
@@ -458,19 +532,103 @@ public class GramaticaMH implements GramaticaMHConstants {
       label_10:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
         case NUMBER:
+        case STRING:
           ;
           break;
         default:
           jj_la1[11] = jj_gen;
           break label_10;
         }
-        negNumber = jj_consume_token(NUMBER);
-                 {if (true) return new ExpressaoMultiplicacao(new ValorInteiro(-1), new ValorInteiro(Integer.parseInt(negNumber.image)));}
+        exp = expr();
+                 {if (true) return new ExpressaoMultiplicacao(new ValorInteiro(-1), exp);}
+      }
+      break;
+    case LISTA:
+      jj_consume_token(LISTA);
+         {if (true) return new ListaVazia();}
+      break;
+    case INSERIR:
+      jj_consume_token(INSERIR);
+      label_11:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[12] = jj_gen;
+          break label_11;
+        }
+        exp = getInserir();
+                 {if (true) return exp;}
+      }
+      break;
+    case RECUPERA:
+      jj_consume_token(RECUPERA);
+      label_12:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MENOR:
+        case MAIOR:
+        case IGUAL:
+        case MENOR_EQ:
+        case MAIOR_EQ:
+        case MULT:
+        case LET:
+        case FUNC:
+        case EVAL:
+        case IF:
+        case NEG:
+        case LISTA:
+        case INSERIR:
+        case RECUPERA:
+        case NUMBER:
+        case STRING:
+          ;
+          break;
+        default:
+          jj_la1[13] = jj_gen;
+          break label_12;
+        }
+        exp = getRecupera();
+                 {if (true) return exp;}
       }
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -487,13 +645,13 @@ public class GramaticaMH implements GramaticaMHConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[13];
+  static final private int[] jj_la1 = new int[15];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x1004000,0x1ccdfe0,0x1cc9fe0,0x1cc9fe0,0x1000000,0x1000000,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x1cc9fe0,0x800000,0x1cc9fe0,};
+      jj_la1_0 = new int[] {0x10004000,0x1bccdfe0,0x1bcc9fe0,0x1bcc9fe0,0x10000000,0x10000000,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,0x1bcc9fe0,};
    }
 
   /** Constructor with InputStream. */
@@ -514,7 +672,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -528,7 +686,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -545,7 +703,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -555,7 +713,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -571,7 +729,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -580,7 +738,7 @@ public class GramaticaMH implements GramaticaMHConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 13; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 15; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -631,12 +789,12 @@ public class GramaticaMH implements GramaticaMHConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[26];
+    boolean[] la1tokens = new boolean[30];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 15; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -645,7 +803,7 @@ public class GramaticaMH implements GramaticaMHConstants {
         }
       }
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 30; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
