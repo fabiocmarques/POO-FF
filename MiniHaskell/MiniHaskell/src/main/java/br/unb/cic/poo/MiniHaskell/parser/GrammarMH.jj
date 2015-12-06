@@ -260,6 +260,12 @@ Expressao getRecupera():
 	{return new RecuperaElemento(expIndex, expLista);}
 }
 
+Expressao getValor():
+{
+ 	Expressao expLista;}{
+	< OF >
+	expLista = expr()
+	{return new ValorElementoLista(expLista);}}
 
 Expressao expr():
 {
@@ -379,6 +385,11 @@ Expressao expr():
 		exp = getRecupera()
 		{return exp;}
 	)*
+|
+	< VALOR >
+	(		exp = getValor()
+		{return exp;}
+	)*
 
 }
 
@@ -421,6 +432,8 @@ TOKEN : /* OPERATORS */
  |  < INSERIR: "inserir" >
  |  < RECUPERA: "get" >
  |  < FROM: "from">
+ |  < VALOR: "valor">
+ |  < OF: "of">
 
  	
 }
