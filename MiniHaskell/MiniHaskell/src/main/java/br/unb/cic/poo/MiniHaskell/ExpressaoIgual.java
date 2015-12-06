@@ -19,7 +19,7 @@ public class ExpressaoIgual extends ExpressaoBin {
 			return new ValorBooleano(((ValorBooleano)resLhs).getValor().equals(((ValorBooleano)resRhs).getValor()));
 		}
 		else
-			return null;
+			throw new RuntimeException("Tipos não são equivalentes");
 	}
 
 	@Override

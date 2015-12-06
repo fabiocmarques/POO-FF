@@ -6,17 +6,18 @@ options
   static = true;
 }
 
-PARSER_BEGIN(GramaticaMH)
+PARSER_BEGIN(InterpretadorMH)
 package br.unb.cic.poo.MiniHaskell.parser;
 
 import br.unb.cic.poo.MiniHaskell.*;
 import java.util.*;
 
-public class GramaticaMH
+public class InterpretadorMH
 {
+ 
   public static void main(String args []) throws ParseException
   {
-    GramaticaMH parser = new GramaticaMH(System.in);
+    InterpretadorMH parser = new InterpretadorMH(System.in);
     while(true)    {
 
 		try{
@@ -61,7 +62,7 @@ public class GramaticaMH
 }
 
 
-PARSER_END(GramaticaMH)
+PARSER_END(InterpretadorMH)
 
 Expressao getSoma():
 {
@@ -390,6 +391,16 @@ Expressao expr():
 	(		exp = getValor()
 		{return exp;}
 	)*
+|
+	< SIZE >
+	(
+	  < OF >
+
+	  exp = expr()
+
+	  {		return new TamanhoLista(exp);
+	  }
+	  	)*
 
 }
 
@@ -434,6 +445,7 @@ TOKEN : /* OPERATORS */
  |  < FROM: "from">
  |  < VALOR: "valor">
  |  < OF: "of">
+ |  < SIZE: "size">
 
  	
 }
