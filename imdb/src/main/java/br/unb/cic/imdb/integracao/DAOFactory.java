@@ -38,4 +38,8 @@ public abstract class DAOFactory {
 	}
 	
 	public abstract DAOGenero createDAOGenero();
+	public abstract DAOFilme createDAOFilme();
+	public abstract DAOAlbum createDAOAlbum();
+	public abstract DAOTrabArt createDAOTrabalhoArtistico();
+	public abstract DAOAutor createDAOAutor();
 }

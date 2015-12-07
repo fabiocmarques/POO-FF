@@ -15,7 +15,7 @@ public class IMDBFacadeTest extends TestCase {
 		
 			facade.adicionaGenero(novoGenero);
 		
-			Genero resultadoConsulta = facade.recuperarPorTitulo("Rock");
+			Genero resultadoConsulta = facade.recuperarGeneroPorTitulo("Rock");
 		
 			assertEquals(quantidadeGeneros+1, facade.recuperarGeneros().size());
 			assertNotNull(resultadoConsulta);		

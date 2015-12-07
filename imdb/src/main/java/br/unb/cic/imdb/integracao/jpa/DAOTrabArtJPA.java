@@ -17,7 +17,7 @@ public class DAOTrabArtJPA implements DAOTrabArt{
 		em = EMFactoryHelper.instance().getFactory().createEntityManager();
 		em.getTransaction().begin();
 		em.persist(trabalhoArtistico);
-		em.getTransaction().commit();		
+		em.getTransaction().commit();
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class DAOTrabArtJPA implements DAOTrabArt{
 	@Override
 	public TrabalhoArtistico recuperaPorNome(String nome) {
 		em = EMFactoryHelper.instance().getFactory().createEntityManager();
-		List<TrabalhoArtistico> trabArt = em.createQuery("FROM TrabalhoArtistico WHERE nome = :nomeParam").setParameter("nomeParam", nome).getResultList();
+		List<TrabalhoArtistico> trabArt = em.createQuery("FROM TrabalhoArtistico WHERE titulo = :nomeParam").setParameter("nomeParam", nome).getResultList();
 		return trabArt.size() == 1 ? trabArt.get(0): null;
 	}
 

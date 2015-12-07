@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Wed Nov 25 22:53:43 BRST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0151-4148-1c85-000006a50940 
-on database directory /home/fernando/workspace/POO-FF/imdb/test  with class loader sun.misc.Launcher$AppClassLoader@3764951d 
+Sun Dec 06 17:32:34 BRST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0151-78c8-0788-0000065236e0 
+on database directory /home/fernando/workspace/POO-FF/imdb/test  with class loader sun.misc.Launcher$AppClassLoader@4d7e1886 
 Loaded from file:/home/fernando/.m2/repository/org/apache/derby/derby/10.8.2.2/derby-10.8.2.2.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_65-b17
