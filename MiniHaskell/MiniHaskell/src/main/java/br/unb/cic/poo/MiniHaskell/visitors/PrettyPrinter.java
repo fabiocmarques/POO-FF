@@ -1,5 +1,10 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+
+import br.unb.cic.poo.MiniHaskell.AmbienteExecucao;
+import br.unb.cic.poo.MiniHaskell.AplicacaoDeFuncao;
+import br.unb.cic.poo.MiniHaskell.ExpRef;
+import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
@@ -60,9 +65,11 @@ public class PrettyPrinter implements Visitor {
 	public void visitar(ExpressaoLet exp) {
 		res += "let ";
 		res += exp.getId();
-		res += " ";
+		res += " = ";
 		exp.getAtribuicao().aceitar(this);
 		res += " in ";
+		AmbienteExecucao.getInstance().push();
+		AmbienteExecucao.getInstance().declaraVariavel(exp.getId(), exp.getAtribuicao());
 		exp.getCorpo().aceitar(this);;		
 	}
 
@@ -113,7 +120,7 @@ public class PrettyPrinter implements Visitor {
 	public void visitar(ExpressaoIgual exp) {
 		res += "(";
 		exp.lhs().aceitar(this);
-		res += "==";
+		res += " == ";
 		exp.rhs().aceitar(this);
 		res += ")";		
 	}
@@ -137,7 +144,7 @@ public class PrettyPrinter implements Visitor {
 	
 
 	public void visitar(ListaVazia exp) {
-		res += " [null] ";
+		res += "[null] ";
 		
 	}
 
@@ -156,6 +163,21 @@ public class PrettyPrinter implements Visitor {
 	public void visitar(ValorElementoLista exp) {
 		res += "Valor do elemento: ";
 		exp.avaliar().aceitar(this);
+	}
+
+	public void visitar(ExpRef exp) {
+		res += exp.getId();		
+	}
+
+
+	public void visitar(AplicacaoDeFuncao exp) {
+		res += exp.getNome();
+		res += " (";
+		for(Expressao arg : exp.getArgumentos()){
+			res += " ";
+			arg.aceitar(this);
+		}
+		res += ") ";		
 	}
 
 }

@@ -1,5 +1,8 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+import br.unb.cic.poo.MiniHaskell.AplicacaoDeFuncao;
+import br.unb.cic.poo.MiniHaskell.ExpRef;
+import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
@@ -131,5 +134,17 @@ public class SubExpVisitor implements Visitor{
 		total += 1;
 		exp.getListaExp().aceitar(this);
 		
+	}
+
+	public void visitar(ExpRef exp) {
+		total += 1;
+		
+	}
+
+
+	public void visitar(AplicacaoDeFuncao exp) {
+		total += 1;
+		for(Expressao expr : exp.getArgumentos())
+			expr.aceitar(this);
 	}
 }

@@ -8,6 +8,10 @@ public class ExpRef extends Expressao {
 	public ExpRef(String id) {
 		this.id = id;
 	}
+	
+	public String getId(){
+		return id;
+	}
 
 	public Valor avaliar() {
 		if(!checarTipo()){
@@ -31,7 +35,7 @@ public class ExpRef extends Expressao {
 	}
 
 	public void aceitar(Visitor v) {
-		//TODO: pendente a implementacao.
+		v.visitar(this);
 	} 
 
 }

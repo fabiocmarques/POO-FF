@@ -1,5 +1,9 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+import br.unb.cic.poo.MiniHaskell.AmbienteExecucao;
+import br.unb.cic.poo.MiniHaskell.AplicacaoDeFuncao;
+import br.unb.cic.poo.MiniHaskell.DecFuncao;
+import br.unb.cic.poo.MiniHaskell.ExpRef;
 import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
@@ -37,4 +41,6 @@ public interface Visitor {
 	public void visitar(TamanhoLista exp);
 	public void visitar(ValorElementoLista exp);
 	public void init();
+	public void visitar(ExpRef exp);
+	public void visitar(AplicacaoDeFuncao exp);
 }
