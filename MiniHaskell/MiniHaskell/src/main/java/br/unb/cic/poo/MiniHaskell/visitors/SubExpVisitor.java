@@ -1,6 +1,5 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
-import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMaior;
@@ -10,7 +9,13 @@ import br.unb.cic.poo.MiniHaskell.ExpressaoMenorOuIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
+import br.unb.cic.poo.MiniHaskell.InserirNaLista;
+import br.unb.cic.poo.MiniHaskell.ListaValorada;
+import br.unb.cic.poo.MiniHaskell.ListaVazia;
+import br.unb.cic.poo.MiniHaskell.RecuperaElemento;
+import br.unb.cic.poo.MiniHaskell.TamanhoLista;
 import br.unb.cic.poo.MiniHaskell.ValorBooleano;
+import br.unb.cic.poo.MiniHaskell.ValorElementoLista;
 import br.unb.cic.poo.MiniHaskell.ValorInteiro;
 
 public class SubExpVisitor implements Visitor{
@@ -28,6 +33,7 @@ public class SubExpVisitor implements Visitor{
 	public void visitar(ValorBooleano exp) {
 		total += 1; 
 	}
+	
 
 	public void visitar(ExpressaoSoma exp) {
 		total += 1;
@@ -47,13 +53,9 @@ public class SubExpVisitor implements Visitor{
 	}
 
 	public void visitar(ExpressaoLet exp) {
-		return;
-		
-	}
-
-	public void visitar(Expressao exp) {
-		// TODO Auto-generated method stub
-		
+		total += 1;
+		exp.getAtribuicao().aceitar(this);
+		exp.getCorpo().aceitar(this);		
 	}
 
 	public void visitar(ExpressaoMultiplicacao exp) {
@@ -91,5 +93,43 @@ public class SubExpVisitor implements Visitor{
 		total += 1;
 		exp.lhs().aceitar(this);
 		exp.rhs().aceitar(this);	
+	}
+
+	public void visitar(InserirNaLista exp) {
+		total += 1;
+		exp.getListaExp().aceitar(this);
+		exp.getValorInserido().aceitar(this);
+		
+	}
+
+	public void visitar(ListaValorada exp) {
+		total += 1;
+		exp.valor().aceitar(this);
+		exp.next().aceitar(this);
+		
+	}
+
+	public void visitar(ListaVazia exp) {
+		total += 1;
+		
+	}
+
+	public void visitar(RecuperaElemento exp) {
+		total += 1;
+		exp.getListaExp().aceitar(this);
+		exp.getIndex().aceitar(this);		
+	}
+	
+
+	public void visitar(TamanhoLista exp) {
+		total += 1;
+		exp.getListaExp().aceitar(this);
+		
+	}
+
+	public void visitar(ValorElementoLista exp) {
+		total += 1;
+		exp.getListaExp().aceitar(this);
+		
 	}
 }

@@ -38,8 +38,6 @@ public abstract class Expressao {
 	 * 
 	 * @param v
 	 */
-	public void aceitar(Visitor v) {
-		v.visitar(this);
-	}
+	public abstract void aceitar(Visitor v);
 	
 }

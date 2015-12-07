@@ -1,5 +1,7 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class TamanhoLista extends Expressao{
 	Expressao listaExp;
 	int tam;
@@ -7,6 +9,11 @@ public class TamanhoLista extends Expressao{
 	public TamanhoLista(Expressao listaExp) {
 		this.listaExp = listaExp;
 	}
+	
+	public int getTam(){
+		return tam;
+	}
+	
 	@Override
 	public Valor avaliar() {
 		if(listaExp.avaliar().tipo().equals(Tipo.LISTA)){
@@ -33,6 +40,14 @@ public class TamanhoLista extends Expressao{
 			return Tipo.ERROR;
 		}
 		return Tipo.INTEIRO;
+	}
+	
+	public Expressao getListaExp(){
+		return listaExp;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
 	}
 	
 }

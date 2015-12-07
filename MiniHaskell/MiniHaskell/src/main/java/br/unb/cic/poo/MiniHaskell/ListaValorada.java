@@ -1,5 +1,7 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class ListaValorada extends Lista {
 
 	private Valor valor;
@@ -38,6 +40,10 @@ public class ListaValorada extends Lista {
 	
 	public void setValor(Valor valor){
 		this.valor = valor;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
 	}
 	
 	
