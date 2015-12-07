@@ -1,5 +1,7 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class RecuperaElemento extends Expressao {
 	Expressao listaExp;
 	Expressao index;
@@ -13,6 +15,11 @@ public class RecuperaElemento extends Expressao {
 		this.index = index;
 		this.posCorrente = 0;
 	}
+	
+	public int getPosElemento(){
+		return posElemento;
+	}
+	
 	
 	@Override
 	public Valor avaliar() {
@@ -43,6 +50,18 @@ public class RecuperaElemento extends Expressao {
 	@Override
 	public Tipo tipo() {
 		return checarTipo() ? Tipo.LISTA : Tipo.ERROR;
+	}
+	
+	public Expressao getListaExp(){
+		return listaExp;
+	}
+	
+	public Expressao getIndex(){
+		return index;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
 	}
 
 }

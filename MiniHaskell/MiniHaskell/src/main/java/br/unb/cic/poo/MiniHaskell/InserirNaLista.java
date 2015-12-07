@@ -1,5 +1,7 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class InserirNaLista extends Expressao {
 	Expressao listaExp;
 	Expressao valorInserido;
@@ -39,5 +41,17 @@ public class InserirNaLista extends Expressao {
 	@Override
 	public Tipo tipo() {
 		return checarTipo() ? Tipo.LISTA:Tipo.ERROR;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
+	}
+	
+	public Expressao getListaExp(){
+		return listaExp;
+	}
+	
+	public Expressao getValorInserido(){
+		return valorInserido;
 	}
 }

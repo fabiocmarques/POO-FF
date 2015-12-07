@@ -1,5 +1,9 @@
 package br.unb.cic.poo.MiniHaskell.visitors;
 
+
+import br.unb.cic.poo.MiniHaskell.AmbienteExecucao;
+import br.unb.cic.poo.MiniHaskell.AplicacaoDeFuncao;
+import br.unb.cic.poo.MiniHaskell.ExpRef;
 import br.unb.cic.poo.MiniHaskell.Expressao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoLet;
@@ -10,7 +14,13 @@ import br.unb.cic.poo.MiniHaskell.ExpressaoMenorOuIgual;
 import br.unb.cic.poo.MiniHaskell.ExpressaoMultiplicacao;
 import br.unb.cic.poo.MiniHaskell.ExpressaoSoma;
 import br.unb.cic.poo.MiniHaskell.IfThenElse;
+import br.unb.cic.poo.MiniHaskell.InserirNaLista;
+import br.unb.cic.poo.MiniHaskell.ListaValorada;
+import br.unb.cic.poo.MiniHaskell.ListaVazia;
+import br.unb.cic.poo.MiniHaskell.RecuperaElemento;
+import br.unb.cic.poo.MiniHaskell.TamanhoLista;
 import br.unb.cic.poo.MiniHaskell.ValorBooleano;
+import br.unb.cic.poo.MiniHaskell.ValorElementoLista;
 import br.unb.cic.poo.MiniHaskell.ValorInteiro;
 
 public class PrettyPrinter implements Visitor {
@@ -53,8 +63,14 @@ public class PrettyPrinter implements Visitor {
 	}
 
 	public void visitar(ExpressaoLet exp) {
-		// TODO Auto-generated method stub
-		
+		res += "let ";
+		res += exp.getId();
+		res += " = ";
+		exp.getAtribuicao().aceitar(this);
+		res += " in ";
+		AmbienteExecucao.getInstance().push();
+		AmbienteExecucao.getInstance().declaraVariavel(exp.getId(), exp.getAtribuicao());
+		exp.getCorpo().aceitar(this);;		
 	}
 
 
@@ -66,9 +82,6 @@ public class PrettyPrinter implements Visitor {
 		res += ")";
 	}
 
-	public void visitar(Expressao exp) {
-		return;
-	}
 
 	public void visitar(ExpressaoMaiorOuIgual exp) {
 		res += "(";
@@ -107,10 +120,64 @@ public class PrettyPrinter implements Visitor {
 	public void visitar(ExpressaoIgual exp) {
 		res += "(";
 		exp.lhs().aceitar(this);
-		res += "==";
+		res += " == ";
 		exp.rhs().aceitar(this);
-		res += ")";
+		res += ")";		
+	}
+	
+
+	public void visitar(InserirNaLista exp) {
+		res += " [";
+		exp.getValorInserido().aceitar(this);;
+		res += "] ";		
+	}
+	
+	
+
+	public void visitar(ListaValorada exp) {
+		res += " [";
+		exp.valor().aceitar(this);;
+		res += "] ";
+		exp.next().aceitar(this);		
+	}
+	
+	
+
+	public void visitar(ListaVazia exp) {
+		res += "[null] ";
 		
+	}
+
+	public void visitar(RecuperaElemento exp) {
+		res += "Elemento na posição ";
+		exp.getIndex().aceitar(this);
+		res += " : ";
+		exp.avaliar().aceitar(this);
+	}
+
+	public void visitar(TamanhoLista exp) {
+		res += "Tamanho da lista: "+ exp.getTam();
+		
+	}
+
+	public void visitar(ValorElementoLista exp) {
+		res += "Valor do elemento: ";
+		exp.avaliar().aceitar(this);
+	}
+
+	public void visitar(ExpRef exp) {
+		res += exp.getId();		
+	}
+
+
+	public void visitar(AplicacaoDeFuncao exp) {
+		res += exp.getNome();
+		res += " (";
+		for(Expressao arg : exp.getArgumentos()){
+			res += " ";
+			arg.aceitar(this);
+		}
+		res += ") ";		
 	}
 
 }

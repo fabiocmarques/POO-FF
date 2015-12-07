@@ -3,6 +3,8 @@ package br.unb.cic.poo.MiniHaskell;
 import java.util.HashMap;
 import java.util.Stack;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class AmbienteExecucao {
 
 	private Stack<HashMap<String, Expressao>> ambiente;
@@ -51,4 +53,5 @@ public class AmbienteExecucao {
 	public void pop() {
 		ambiente.pop();
 	}
+	
 }

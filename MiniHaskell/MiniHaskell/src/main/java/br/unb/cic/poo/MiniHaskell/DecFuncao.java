@@ -2,6 +2,8 @@ package br.unb.cic.poo.MiniHaskell;
 
 import java.util.List;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class DecFuncao {
 	
 	private String nome;
@@ -25,7 +27,5 @@ public class DecFuncao {
 	public Expressao getCorpo() {
 		return corpo;
 	}
-
-	
 	
 }

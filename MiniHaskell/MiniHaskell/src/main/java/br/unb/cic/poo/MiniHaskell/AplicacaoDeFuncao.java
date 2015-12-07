@@ -14,6 +14,14 @@ public class AplicacaoDeFuncao extends Expressao{
 		this.nome = nome;
 		this.argumentos = argumentos;
 	}
+	
+	public String getNome(){
+		return nome;
+	}
+	
+	public List<Expressao> getArgumentos(){
+		return argumentos;
+	}
 
 	public Valor avaliar() {
 		DecFuncao funcao = AmbienteExecucao.getInstance().consultaFuncao(nome);
@@ -53,8 +61,7 @@ public class AplicacaoDeFuncao extends Expressao{
 	}
 
 	public void aceitar(Visitor v) {
-		// TODO Auto-generated method stub
-		
+		v.visitar(this);
 	}
 
 }

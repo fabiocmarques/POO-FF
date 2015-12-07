@@ -8,6 +8,18 @@ public class ExpressaoLet extends Expressao {
 	private Expressao atribuicao;
 	private Expressao corpo;
 	
+	public Expressao getAtribuicao(){
+		return atribuicao;
+	}
+	
+	public Expressao getCorpo(){
+		return corpo;
+	}
+	
+	public String getId(){
+		return id;
+	}
+	
 	
 	public ExpressaoLet(String id, Expressao atribuicao, Expressao corpo) {
 		this.id = id;
@@ -32,6 +44,10 @@ public class ExpressaoLet extends Expressao {
 			return corpo.tipo();
 		}
 		return Tipo.ERROR;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
 	}
 	
 }

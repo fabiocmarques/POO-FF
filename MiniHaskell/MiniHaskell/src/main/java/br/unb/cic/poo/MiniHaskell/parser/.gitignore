@@ -5,3 +5,5 @@
 /TokenMgrError.java
 /GramaticaMHConstants.java
 /InterpretadorMHConstants.java
+/InterpretadorMH.java
+/InterpretadorMHTokenManager.java

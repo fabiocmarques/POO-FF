@@ -1,5 +1,7 @@
 package br.unb.cic.poo.MiniHaskell;
 
+import br.unb.cic.poo.MiniHaskell.visitors.Visitor;
+
 public class ExpressaoIgual extends ExpressaoBin {
 	
 	
@@ -30,6 +32,10 @@ public class ExpressaoIgual extends ExpressaoBin {
 	@Override
 	public Tipo tipo() {
 		return checarTipo() ? Tipo.BOOL : Tipo.ERROR;
+	}
+	
+	public void aceitar(Visitor v) {
+		v.visitar(this);
 	}
 
 }

@@ -12,9 +12,9 @@ public class ExpLetTest extends TestCase {
 	}
 	
 	public void testNotSoTrivialTest() {
-		Expressao let = new ExpressaoLet("x", 
+		Expressao let = new ExpressaoLet("y", 
 				new ValorInteiro(5), 
-				new ExpressaoSoma(new ExpRef("x"), new ValorInteiro(1)));
+				new ExpressaoSoma(new ExpRef("y"), new ValorInteiro(1)));
 		
 		ValorInteiro res = (ValorInteiro)let.avaliar();
 		
